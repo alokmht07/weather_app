@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Weathercard from "./weathercard";
 import "./style.css";
 
@@ -6,7 +6,7 @@ const Temp = () => {
   const [searchValue, setSearchValue] = useState("Jamshedpur");
   const [tempInfo, setTempInfo] = useState({});
 
-  const getWeatherInfo = async () => {
+  const getWeatherInfo = useCallback(async () => {
     try {
       let url = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=2db59d08a5a8c8fbde4653698179cabb`;
 
@@ -34,7 +34,7 @@ const Temp = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [searchValue]);
 
   const handleEnterKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -44,7 +44,7 @@ const Temp = () => {
 
   useEffect(() => {
     getWeatherInfo();
-  }, [searchValue]);
+  }, [getWeatherInfo]);
 
   return (
     <>
